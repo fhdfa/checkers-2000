@@ -1,0 +1,4 @@
+// types of highlights for positions on the checkerboard
+export const POSSIBLE_MOVER_HIGHLIGHT = 'POSSIBLE_MOVER_HIGHLIGHT';
+export const SELECTED_PIECE_HIGHLIGHT = 'SELECTED_PIECE_HIGHLIGHT';
+export const POSSIBLE_MOVE_HIGHLIGHT = 'POSSIBLE_MOVE_HIGHLIGHT';
