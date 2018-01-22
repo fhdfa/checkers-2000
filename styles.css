@@ -1,0 +1,27 @@
+.checkers-2000 {
+  padding: 10px;
+}
+
+.checkerboard {
+  border: 2px solid black;
+  width: 25%;
+}
+
+.checkerboard-square {
+  border: 1px solid black;
+  display: inline-block;
+  width: 12.5%;
+}
+
+.checkerboard-square-contents {
+  padding-bottom: 100%;
+  width: 100%;
+}
+
+.red-square {
+  background-color: red;
+}
+
+.black-square {
+  background-color: #222;
+}
