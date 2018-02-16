@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CheckerboardSquare from './CheckerboardSquare.jsx';
 import { SQUARES_PER_ROW } from '../constants/checkerboard';
 import { BLACK, RED } from '../constants/colors';
@@ -22,3 +23,7 @@ export default function CheckerboardRow(props) {
     </div>
   );
 }
+
+CheckerboardRow.propTypes = {
+  startingColor: PropTypes.string.isRequired
+};

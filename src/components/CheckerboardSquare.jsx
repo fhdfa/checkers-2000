@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { BLACK, RED } from '../constants/colors';
 
 export default function CheckerboardSquare(props) {
@@ -10,3 +11,7 @@ export default function CheckerboardSquare(props) {
     </div>
   );
 }
+
+CheckerboardSquare.propTypes = {
+  color: PropTypes.string.isRequired
+};
