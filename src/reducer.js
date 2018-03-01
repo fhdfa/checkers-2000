@@ -1,11 +1,12 @@
-import { POSITIONS_PER_CHECKERBOARD } from './constants/checkerboard';
+import { POSITIONS_PER_CHECKERBOARD, PIECES_PER_PLAYER } from './constants/checkerboard';
+import { BLACK, RED } from './constants/colors';
 import { INITIAL_STATE, GAME_WON, GAME_ENDED } from './constants/gameStates';
 import { GAME_CONTROL_ACTUATED } from './actions';
 
-// [ 'position1', 'position2', etc ]
+// [ 'position1', 'position2', ... ]
 const defaultPositionIds = new Array(POSITIONS_PER_CHECKERBOARD).fill('position').map((value, index) => value + (index + 1));
 
-// { position1: { piece: null, highlight: null }, position2: { piece: null, highlight: null }, etc }
+// { position1: { piece: null, highlight: null }, position2: { piece: null, highlight: null }, ... }
 const defaultPositions = new Object();
 defaultPositionIds.forEach(value => {
   defaultPositions[value] = {
@@ -33,8 +34,24 @@ const defaultState = {
   }
 };
 
+// [ 'position1', 'position2', ..., 'position12' ]
+const blackStartingPositions = new Array(PIECES_PER_PLAYER).fill('position').map((value, index) => value + (index + 1));
+
+// [ 'position21', 'position22', ..., 'position32' ]
+const redStartingPositions = new Array(PIECES_PER_PLAYER).fill('position').map((value, index) => value + (POSITIONS_PER_CHECKERBOARD - index));
+
 function startGame(state) {
-  return state;
+  const nextState = Object.assign({}, state);
+
+  blackStartingPositions.forEach(value => {
+    nextState.positions.byId[value].piece = BLACK;
+  });
+
+  redStartingPositions.forEach(value => {
+    nextState.positions.byId[value].piece = RED;
+  });
+
+  return nextState;
 }
 
 function playAgain(state) {
