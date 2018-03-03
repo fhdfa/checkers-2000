@@ -1,17 +1,43 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BLACK, RED } from '../constants/colors';
 
-export default function CheckerboardSquare(props) {
-  const classes = 'checkerboard-square ' + (props.color == RED ? 'red-square' : 'black-square');
+function CheckerboardSquare(props) {
+  const squareClasses = 'checkerboard-square ' + (props.position === undefined ? 'red-square' : 'black-square');
+  let checkerPieceColor;
+  let checkerPieceClasses;
+  let checkerPiece;
+
+  if(props.position !== undefined) {
+    checkerPieceColor = props.allPositions.byId['position' + props.position].piece;
+
+    if(checkerPieceColor !== null) {
+      checkerPieceClasses = 'checker-piece ' + (checkerPieceColor === RED ? 'red-piece' : 'black-piece');
+
+      checkerPiece = (
+        <div className={checkerPieceClasses}>
+          <div className="checker-piece-inner-ring" />
+        </div>
+      );
+    }
+  }
 
   return (
-    <div className={classes}>
-      <div className="checkerboard-square-contents" />
+    <div className={squareClasses}>
+      {checkerPiece}
     </div>
   );
 }
 
 CheckerboardSquare.propTypes = {
-  color: PropTypes.string.isRequired
+  position: PropTypes.number
 };
+
+function mapStateToProps(state) {
+  return {
+    allPositions: state.positions
+  };
+}
+
+export default connect(mapStateToProps)(CheckerboardSquare);

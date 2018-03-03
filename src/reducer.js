@@ -51,6 +51,8 @@ function startGame(state) {
     nextState.positions.byId[value].piece = RED;
   });
 
+  nextState.positions = Object.assign({}, nextState.positions);
+
   return nextState;
 }
 

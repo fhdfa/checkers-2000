@@ -1,21 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CheckerboardSquare from './CheckerboardSquare.jsx';
-import { SQUARES_PER_ROW } from '../constants/checkerboard';
-import { BLACK, RED } from '../constants/colors';
+import { POSITIONS_PER_ROW } from '../constants/checkerboard';
+
+function pushRedBlack(squares, position) {
+  squares.push(<CheckerboardSquare key={'red' + position} />);
+  squares.push(<CheckerboardSquare position={position} key={position.toString()} />);
+}
+
+function pushBlackRed(squares, position) {
+  squares.push(<CheckerboardSquare position={position} key={position.toString()} />);
+  squares.push(<CheckerboardSquare key={'red' + position} />);
+}
 
 export default function CheckerboardRow(props) {
   let squares = [];
-  let color = props.startingColor;
+  const pushSquarePair = (props.row % 2 === 0 ? pushRedBlack : pushBlackRed);
 
-  for(let i = 0; i < SQUARES_PER_ROW; i++) {
-    squares.push(<CheckerboardSquare color={color} key={i.toString()} />);
-
-    if(color == RED)
-      color = BLACK;
-    else
-      color = RED;
-  }
+  for(let i = 0; i < POSITIONS_PER_ROW; i++)
+    pushSquarePair(squares, props.row * POSITIONS_PER_ROW + i + 1);
 
   return (
     <div className="checkerboard-row">
@@ -25,5 +28,5 @@ export default function CheckerboardRow(props) {
 }
 
 CheckerboardRow.propTypes = {
-  startingColor: PropTypes.string.isRequired
+  row: PropTypes.number.isRequired
 };
