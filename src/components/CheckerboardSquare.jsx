@@ -10,7 +10,7 @@ function CheckerboardSquare(props) {
   let checkerPiece;
 
   if(props.position !== undefined) {
-    checkerPieceColor = props.allPositions.byId['position' + props.position].piece;
+    checkerPieceColor = props.allPositions[props.position].piece;
 
     if(checkerPieceColor !== null) {
       checkerPieceClasses = 'checker-piece ' + (checkerPieceColor === RED ? 'red-piece' : 'black-piece');

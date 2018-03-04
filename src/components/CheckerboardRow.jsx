@@ -18,7 +18,7 @@ export default function CheckerboardRow(props) {
   const pushSquarePair = (props.row % 2 === 0 ? pushRedBlack : pushBlackRed);
 
   for(let i = 0; i < POSITIONS_PER_ROW; i++)
-    pushSquarePair(squares, props.row * POSITIONS_PER_ROW + i + 1);
+    pushSquarePair(squares, props.row * POSITIONS_PER_ROW + i);
 
   return (
     <div className="checkerboard-row">

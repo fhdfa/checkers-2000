@@ -3,57 +3,46 @@ import { BLACK, RED } from './constants/colors';
 import { INITIAL_STATE, GAME_WON, GAME_ENDED } from './constants/gameStates';
 import { GAME_CONTROL_ACTUATED } from './actions';
 
-// [ 'position1', 'position2', ... ]
-const defaultPositionIds = new Array(POSITIONS_PER_CHECKERBOARD).fill('position').map((value, index) => value + (index + 1));
-
-// { position1: { piece: null, highlight: null }, position2: { piece: null, highlight: null }, ... }
-const defaultPositions = new Object();
-defaultPositionIds.forEach(value => {
-  defaultPositions[value] = {
-    piece: null,
-    highlight: null
-  };
-});
+const defaultPosition = {
+  piece: null,
+  crown: false,
+  highlight: null
+};
 
 const defaultState = {
   gameState: INITIAL_STATE,
   currentColor: null,
   blackPieces: 0,
   redPieces: 0,
-  positions: {
-    byId: defaultPositions,
-    allIds: defaultPositionIds
-  },
-  pieces: {
-    byId: {},
-    allIds: []
-  },
-  highlights: {
-    byId: {},
-    allIds: []
-  }
+  positions: new Array(POSITIONS_PER_CHECKERBOARD).fill(defaultPosition)
 };
 
-// [ 'position1', 'position2', ..., 'position12' ]
-const blackStartingPositions = new Array(PIECES_PER_PLAYER).fill('position').map((value, index) => value + (index + 1));
+function positionsWithBlackPieces(positions) {
+  return (
+    positions.slice(0, PIECES_PER_PLAYER)
+             .map(value => Object.assign({}, value, { piece: BLACK }))
+  );
+}
 
-// [ 'position21', 'position22', ..., 'position32' ]
-const redStartingPositions = new Array(PIECES_PER_PLAYER).fill('position').map((value, index) => value + (POSITIONS_PER_CHECKERBOARD - index));
+function emptyPositions(positions) {
+  return positions.slice(PIECES_PER_PLAYER, POSITIONS_PER_CHECKERBOARD - PIECES_PER_PLAYER);
+}
+
+function positionsWithRedPieces(positions) {
+  return (
+    positions.slice(POSITIONS_PER_CHECKERBOARD - PIECES_PER_PLAYER, POSITIONS_PER_CHECKERBOARD)
+             .map(value => Object.assign({}, value, { piece: RED }))
+  );
+}
 
 function startGame(state) {
-  const nextState = Object.assign({}, state);
+  const nextPositions = [
+    ...positionsWithBlackPieces(state.positions),
+    ...emptyPositions(state.positions),
+    ...positionsWithRedPieces(state.positions)
+  ];
 
-  blackStartingPositions.forEach(value => {
-    nextState.positions.byId[value].piece = BLACK;
-  });
-
-  redStartingPositions.forEach(value => {
-    nextState.positions.byId[value].piece = RED;
-  });
-
-  nextState.positions = Object.assign({}, nextState.positions);
-
-  return nextState;
+  return Object.assign({}, state, { positions: nextPositions });
 }
 
 function playAgain(state) {
