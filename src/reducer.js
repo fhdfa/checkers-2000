@@ -53,12 +53,12 @@ function endGame(state) {
   return state;
 }
 
-export default function game(state = defaultState, action) {
+export default function reducer(state = defaultState, action) {
   switch(action.type) {
     case GAME_CONTROL_ACTUATED:
-      if(state.gameState == INITIAL_STATE)
+      if(state.gameState === INITIAL_STATE)
         return startGame(state);
-      else if(state.gameState == GAME_WON || state.gameState == GAME_ENDED)
+      else if(state.gameState === GAME_WON || state.gameState === GAME_ENDED)
         return playAgain(state);
       else
         return endGame(state);
