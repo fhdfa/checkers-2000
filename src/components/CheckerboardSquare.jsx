@@ -2,9 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BLACK, RED } from '../constants/colors';
+import { POSSIBLE_MOVER_HIGHLIGHT } from '../constants/positionHighlights';
+
+function getHighlightClass(highlight) {
+  switch(highlight) {
+    case POSSIBLE_MOVER_HIGHLIGHT:
+      return 'highlight possible-mover-highlight ';
+    default:
+      return '';
+  }
+}
 
 function CheckerboardSquare(props) {
-  const squareClasses = 'checkerboard-square ' + (props.position === undefined ? 'red-square' : 'black-square');
+  const squareColorClass = (props.position === undefined ? 'red-square ' : 'black-square ');
+  const squareHighlightClass = (props.position === undefined ? '' : getHighlightClass(props.allPositions[props.position].highlight));
+  const squareClasses = 'checkerboard-square ' + squareColorClass + squareHighlightClass;
   let checkerPieceColor;
   let checkerPieceClasses;
   let checkerPiece;
@@ -13,7 +25,7 @@ function CheckerboardSquare(props) {
     checkerPieceColor = props.allPositions[props.position].piece;
 
     if(checkerPieceColor !== null) {
-      checkerPieceClasses = 'checker-piece ' + (checkerPieceColor === RED ? 'red-piece' : 'black-piece');
+      checkerPieceClasses = 'checker-piece ' + (checkerPieceColor === RED ? 'red-piece ' : 'black-piece ');
 
       checkerPiece = (
         <div className={checkerPieceClasses}>
