@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BLACK, RED } from '../constants/colors';
-import { POSSIBLE_MOVER_HIGHLIGHT } from '../constants/positionHighlights';
+import { POTENTIAL_MOVER_HIGHLIGHT } from '../constants/positionHighlights';
 
 function getHighlightClass(highlight) {
   switch(highlight) {
-    case POSSIBLE_MOVER_HIGHLIGHT:
-      return 'highlight possible-mover-highlight ';
+    case POTENTIAL_MOVER_HIGHLIGHT:
+      return 'highlight potential-mover-highlight ';
     default:
       return '';
   }

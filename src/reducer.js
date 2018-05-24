@@ -1,6 +1,6 @@
 import { POSITIONS_PER_ROW, POSITIONS_PER_CHECKERBOARD, PIECES_PER_PLAYER } from './constants/checkerboard';
 import { BLACK, RED } from './constants/colors';
-import { POSSIBLE_MOVER_HIGHLIGHT } from './constants/positionHighlights';
+import { POTENTIAL_MOVER_HIGHLIGHT } from './constants/positionHighlights';
 import { INITIAL_STATE, SELECT_PIECE, GAME_WON, GAME_ENDED } from './constants/gameStates';
 import { GAME_CONTROL_ACTUATED } from './actions';
 
@@ -40,9 +40,9 @@ function isEmptyPosition(position) {
   return position !== null && position.piece === null;
 }
 
-function addPossibleMoverHighlight(thisPosition, forwardLeftPosition, forwardRightPosition) {
+function addPotentialMoverHighlight(thisPosition, forwardLeftPosition, forwardRightPosition) {
   if(containsBlackPiece(thisPosition) && (isEmptyPosition(forwardLeftPosition) || isEmptyPosition(forwardRightPosition)))
-    return Object.assign({}, thisPosition, { highlight: POSSIBLE_MOVER_HIGHLIGHT });
+    return Object.assign({}, thisPosition, { highlight: POTENTIAL_MOVER_HIGHLIGHT });
   else
     return thisPosition;
 }
@@ -71,10 +71,10 @@ function someFunction(thisPosition, index, positions) {
   const forwardLeftPosition = (rightEdgePositions.includes(index) ? null : positions[getForwardLeftPosition(index)]);
   const forwardRightPosition = (leftEdgePositions.includes(index) ? null : positions[getForwardRightPosition(index)]);
 
-  return addPossibleMoverHighlight(thisPosition, forwardLeftPosition, forwardRightPosition);
+  return addPotentialMoverHighlight(thisPosition, forwardLeftPosition, forwardRightPosition);
 }
 
-function addAllPossibleMoverHighlights(positions) {
+function addAllPotentialMoverHighlights(positions) {
   return positions.map(someFunction);
 }
 
@@ -97,7 +97,7 @@ function positionsWithRedPieces(positions) {
 }
 
 function startGame(state) {
-  const nextPositions = addAllPossibleMoverHighlights([
+  const nextPositions = addAllPotentialMoverHighlights([
     ...positionsWithBlackPieces(state.positions),
     ...emptyPositions(state.positions),
     ...positionsWithRedPieces(state.positions)
